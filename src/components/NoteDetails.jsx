@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
 import CustomButton from "./CustomButton";
+import { ToastContainer, toast } from "react-toastify";
+
+// react-tostify
+import "react-toastify/dist/ReactToastify.css";
 
 const NoteDetails = ({ note, isClicked }) => {
   const [editedTitle, setEditedTitle] = useState(note.title);
@@ -23,10 +27,21 @@ const NoteDetails = ({ note, isClicked }) => {
       const noteToUpdate = storedNotes[noteCategory].find(
         (storedNote) => storedNote.title === note.title
       );
+
+      const hasTitleChanged = noteToUpdate.title !== editedTitle;
+      const hasDescriptionChanged =
+        noteToUpdate.description !== editedDescription;
+
       noteToUpdate.title = editedTitle;
       noteToUpdate.description = editedDescription;
 
+      if (hasTitleChanged || hasDescriptionChanged) {
+        const notify = () => toast("Note is updated");
+        notify();
+      }
+
       localStorage.setItem("notes", JSON.stringify(storedNotes));
+
       window.dispatchEvent(new Event("storage"));
     }
   };
@@ -160,6 +175,16 @@ const NoteDetails = ({ note, isClicked }) => {
       >
         Save Changes
       </CustomButton>
+
+      <div
+        style={{
+          position: "absolute",
+          top: "10px",
+          right: "10px",
+        }}
+      >
+        <ToastContainer />
+      </div>
     </div>
   );
 };

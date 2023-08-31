@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import CustomButton from "./CustomButton";
 import { ToastContainer, toast } from "react-toastify";
 
+// react-tostify
+import "react-toastify/dist/ReactToastify.css";
+
 const RightSide = () => {
   const [notes, setNotes] = useState({});
   const [title, setTitle] = useState(null);
@@ -16,12 +19,18 @@ const RightSide = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (
+      !title ||
+      !title.trim() ||
+      !noteDescription ||
+      !noteDescription.trim()
+    ) {
+      return;
+    }
+
     const notify = () => toast("New notes has been created on Category 2!");
-
-    notify();
-
     const targetCategory = "Category (2)";
-
     const newNote = { title, description: noteDescription };
 
     if (!notes[targetCategory]) {
@@ -36,6 +45,7 @@ const RightSide = () => {
     setNoteDescription("");
 
     localStorage.setItem("notes", JSON.stringify(notes));
+    notify();
   };
 
   return (
