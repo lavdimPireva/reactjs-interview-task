@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import CustomButton from "../Button/CustomButton";
+import CustomButton from "./CustomButton";
 
 const NoteDetails = ({ note, isClicked }) => {
   const [editedTitle, setEditedTitle] = useState(note.title);

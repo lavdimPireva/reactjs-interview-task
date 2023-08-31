@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import LeftSide from "../LeftSide/LeftSide";
-import RightSide from "../RightSide/RightSide";
-import { useCategoryContext } from "../../context/CategoryContext";
-import NoteComponent from "../NoteComponent/NoteComponent";
-import NoteDetails from "../NoteDetails/NoteDetails";
+import { useCategoryContext } from "../context/CategoryContext";
+import LeftSide from "./LeftSide";
+import NoteComponent from "./NoteComponent";
+import RightSide from "./RightSide";
+import NoteDetails from "./NoteDetails";
 
 const Main = () => {
   const { selectedCategory } = useCategoryContext();

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import CustomButton from "../Button/CustomButton";
+import CustomButton from "./CustomButton";
+import { ToastContainer, toast } from "react-toastify";
 
 const RightSide = () => {
   const [notes, setNotes] = useState({});
@@ -15,6 +16,10 @@ const RightSide = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const notify = () => toast("New notes has been created on Category 2!");
+
+    notify();
+
     const targetCategory = "Category (2)";
 
     const newNote = { title, description: noteDescription };
@@ -27,8 +32,6 @@ const RightSide = () => {
 
     setNotes({ ...notes });
 
-    console.log("note", notes);
-
     setTitle("");
     setNoteDescription("");
 
@@ -37,7 +40,7 @@ const RightSide = () => {
 
   return (
     <div
-      className="mt-2  "
+      className="mt-2"
       style={{
         maxWidth: "1300px",
         height: "899px",
@@ -157,6 +160,16 @@ const RightSide = () => {
           Save Changes
         </CustomButton>
       </form>
+
+      <div
+        style={{
+          position: "absolute",
+          top: "10px",
+          right: "10px",
+        }}
+      >
+        <ToastContainer />
+      </div>
     </div>
   );
 };

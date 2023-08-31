@@ -1,6 +1,6 @@
 import React from "react";
-import CategoryItem from "../Category/CategoryItem";
-import { useCategoryContext } from "../../context/CategoryContext";
+import CategoryItem from "./CategoryItem";
+import { useCategoryContext } from "../context/CategoryContext";
 import { useState } from "react";
 
 const LeftSide = ({ setIsClicked }) => {

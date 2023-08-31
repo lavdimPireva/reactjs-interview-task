@@ -1,10 +1,28 @@
 import React, { useEffect, useState } from "react";
-import CustomButton from "../Button/CustomButton";
+import CustomButton from "./CustomButton";
 
 const NoteComponent = ({ categoryName, setSelectedNote, setIsClicked }) => {
   const [searchInputValue, setSearchInputValue] = useState("");
-
+  const [filteredNotes, setFilteredNotes] = useState("");
   const [notes, setNotes] = useState([]);
+
+  useEffect(() => {
+    if (searchInputValue) {
+      const filtered = notes.filter((note) => {
+        const titleMatches = note.title
+          .toLowerCase()
+          .includes(searchInputValue.toLowerCase());
+        const descriptionMatches = note.description
+          .toLowerCase()
+          .includes(searchInputValue.toLowerCase());
+
+        return titleMatches || descriptionMatches;
+      });
+      setFilteredNotes(filtered);
+    } else {
+      setFilteredNotes(notes);
+    }
+  }, [searchInputValue, notes]);
 
   useEffect(() => {
     const handleStorageChange = () => {
@@ -118,26 +136,47 @@ const NoteComponent = ({ categoryName, setSelectedNote, setIsClicked }) => {
         </div>
       </div>
 
-      {notes.map((note, index) => (
-        <div
-          key={index}
-          className="mt-4"
-          style={{ cursor: "pointer" }}
-          onClick={() => handleSelectedNote(note)}
-        >
-          <span>{note.title}</span>
-          <p>{note.description.substring(0, 40) + "..."}</p>
-          <hr
-            className="my-3 "
-            style={{
-              color: "#EFEFEF",
-              width: "100%",
-              borderWidth: "1px",
-              borderColor: "grey",
-            }}
-          />
-        </div>
-      ))}
+      {searchInputValue
+        ? filteredNotes.map((note, index) => (
+            <div
+              key={index}
+              className="mt-4"
+              style={{ cursor: "pointer" }}
+              onClick={() => handleSelectedNote(note)}
+            >
+              <span>{note.title}</span>
+              <p>{note.description.substring(0, 40) + "..."}</p>
+              <hr
+                className="my-3 "
+                style={{
+                  color: "#EFEFEF",
+                  width: "100%",
+                  borderWidth: "1px",
+                  borderColor: "grey",
+                }}
+              />
+            </div>
+          ))
+        : notes.map((note, index) => (
+            <div
+              key={index}
+              className="mt-4"
+              style={{ cursor: "pointer" }}
+              onClick={() => handleSelectedNote(note)}
+            >
+              <span>{note.title}</span>
+              <p>{note.description.substring(0, 40) + "..."}</p>
+              <hr
+                className="my-3 "
+                style={{
+                  color: "#EFEFEF",
+                  width: "100%",
+                  borderWidth: "1px",
+                  borderColor: "grey",
+                }}
+              />
+            </div>
+          ))}
     </div>
   );
 };

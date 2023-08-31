@@ -8,6 +8,9 @@ import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
+// react-tostify
+import "react-toastify/dist/ReactToastify.css";
+
 import { CategoryProvider } from "./context/CategoryProvider";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
