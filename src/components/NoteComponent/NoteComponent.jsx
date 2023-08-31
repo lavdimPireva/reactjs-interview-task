@@ -1,22 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import CustomButton from "../Button/CustomButton";
 
 const NoteComponent = ({ categoryName, setSelectedNote, setIsClicked }) => {
   const [searchInputValue, setSearchInputValue] = useState("");
 
-  const notes = [
-    {
-      title: "Title 1",
-      description: "Description for note 1...",
-    },
-    {
-      title: "Title 2",
-      description: "Description for note 2...",
-    },
-    {
-      title: "Title 3",
-      description: "Description for note 3...",
-    },
-  ];
+  const [notes, setNotes] = useState([]);
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const storedNotes = JSON.parse(localStorage.getItem("notes")) || {};
+      setNotes(storedNotes[categoryName] || []);
+    };
+
+    handleStorageChange();
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, [categoryName]);
 
   const handleSelectedNote = (note) => {
     setSelectedNote(note);
@@ -36,31 +38,17 @@ const NoteComponent = ({ categoryName, setSelectedNote, setIsClicked }) => {
       }}
     >
       <div className="d-flex align-items-center">
-        <button
-          className="btn text-white d-flex align-items-center justify-content-between"
+        <CustomButton
+          type="create"
+          icon={<i className="bi bi-plus" style={{ fontSize: "30px" }}></i>}
           style={{
-            backgroundColor: "#71CF48",
             width: "200px",
             height: "32px",
-            borderRadius: "5px",
             position: "relative",
           }}
         >
-          <span className="flex-grow-1 text-center">Create Note</span>
-
-          <div className="d-flex align-items-center">
-            <span
-              style={{
-                height: "30px",
-                width: "2px",
-                backgroundColor: "#68C142",
-                marginRight: "10px",
-                marginLeft: "10px",
-              }}
-            ></span>
-            <i className="bi bi-plus" style={{ fontSize: "30px" }}></i>
-          </div>
-        </button>
+          Create Note
+        </CustomButton>
 
         <div
           style={{
@@ -81,7 +69,7 @@ const NoteComponent = ({ categoryName, setSelectedNote, setIsClicked }) => {
                 left: "10px",
                 transform: "translateY(-50%)",
                 color: "#D0D0D0",
-                pointerEvents: "none", // Makes the icon non-interactive
+                pointerEvents: "none",
               }}
             ></i>
           )}
@@ -90,7 +78,7 @@ const NoteComponent = ({ categoryName, setSelectedNote, setIsClicked }) => {
             htmlFor="search-input"
             style={{
               position: "absolute",
-              left: "40px", // You can adjust this as needed
+              left: "40px",
               top: "50%",
               transform: "translateY(-50%)",
               pointerEvents: "none",
@@ -138,7 +126,7 @@ const NoteComponent = ({ categoryName, setSelectedNote, setIsClicked }) => {
           onClick={() => handleSelectedNote(note)}
         >
           <span>{note.title}</span>
-          <p>{note.description}</p>
+          <p>{note.description.substring(0, 40) + "..."}</p>
           <hr
             className="my-3 "
             style={{

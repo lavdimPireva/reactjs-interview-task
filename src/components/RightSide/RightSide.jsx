@@ -1,13 +1,39 @@
-import React, { useState } from "react";
-import { useCategoryContext } from "../../context/CategoryContext";
+import React, { useEffect, useState } from "react";
+import CustomButton from "../Button/CustomButton";
 
 const RightSide = () => {
   const [notes, setNotes] = useState({});
-  const { selectedCategory } = useCategoryContext();
+  const [title, setTitle] = useState(null);
+  const [noteDescription, setNoteDescription] = useState(null);
 
-  console.log("selectedCategory", selectedCategory);
+  useEffect(() => {
+    const savedNotes = JSON.parse(localStorage.getItem("notes"));
+    if (savedNotes) {
+      setNotes(savedNotes);
+    }
+  }, []);
 
-  const handleSubmit = (e) => {};
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const targetCategory = "Category (2)";
+
+    const newNote = { title, description: noteDescription };
+
+    if (!notes[targetCategory]) {
+      notes[targetCategory] = [];
+    }
+
+    notes[targetCategory].push(newNote);
+
+    setNotes({ ...notes });
+
+    console.log("note", notes);
+
+    setTitle("");
+    setNoteDescription("");
+
+    localStorage.setItem("notes", JSON.stringify(notes));
+  };
 
   return (
     <div
@@ -92,6 +118,8 @@ const RightSide = () => {
           style={{ outline: "none" }}
           type="text"
           placeholder="Add a title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
         />
 
         <hr
@@ -113,36 +141,21 @@ const RightSide = () => {
           style={{ outline: "none", resize: "none" }}
           onFocus={(e) => (e.target.placeholder = "")}
           onBlur={(e) => (e.target.placeholder = "Write your note here...")}
+          value={noteDescription}
+          onChange={(e) => setNoteDescription(e.target.value)}
         ></textarea>
 
-        <button
-          type="submit"
-          className="btn text-white d-flex align-items-center justify-content-between"
+        <CustomButton
+          type="save"
+          icon={<i class="bi bi-check2" style={{ fontSize: "24px" }}></i>}
           style={{
-            backgroundColor: "#71CF48",
-            width: "150px",
-            height: "32px",
-            borderRadius: "5px",
             position: "absolute",
             bottom: "10px",
             right: "10px",
           }}
         >
-          <span className="flex-grow-1 text-center">Save Changes</span>
-
-          <div className="d-flex align-items-center">
-            <span
-              style={{
-                height: "30px",
-                width: "2px",
-                backgroundColor: "#68C142",
-                marginRight: "10px",
-                marginLeft: "10px",
-              }}
-            ></span>
-            <i class="bi bi-check2" style={{ fontSize: "24px" }}></i>
-          </div>
-        </button>
+          Save Changes
+        </CustomButton>
       </form>
     </div>
   );

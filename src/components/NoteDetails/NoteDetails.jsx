@@ -1,6 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import CustomButton from "../Button/CustomButton";
 
 const NoteDetails = ({ note, isClicked }) => {
+  const [editedTitle, setEditedTitle] = useState(note.title);
+  const [editedDescription, setEditedDescription] = useState(note.description);
+
+  useEffect(() => {
+    setEditedTitle(note.title);
+    setEditedDescription(note.description);
+  }, [note]);
+
+  const handleSaveChanges = () => {
+    const storedNotes = JSON.parse(localStorage.getItem("notes")) || {};
+
+    const noteCategory = Object.keys(storedNotes).find((category) =>
+      storedNotes[category].some(
+        (storedNote) => storedNote.title === note.title
+      )
+    );
+
+    if (noteCategory) {
+      const noteToUpdate = storedNotes[noteCategory].find(
+        (storedNote) => storedNote.title === note.title
+      );
+      noteToUpdate.title = editedTitle;
+      noteToUpdate.description = editedDescription;
+
+      localStorage.setItem("notes", JSON.stringify(storedNotes));
+      window.dispatchEvent(new Event("storage"));
+    }
+  };
+
   return (
     <div
       className="mt-2 me-2 p-2"
@@ -80,14 +110,15 @@ const NoteDetails = ({ note, isClicked }) => {
         style={{ outline: "none" }}
         type="text"
         placeholder="Add a title"
-        value={note.title}
+        value={editedTitle}
+        onChange={(e) => setEditedTitle(e.target.value)}
       />
 
       <hr
         className="my-3 ms-2"
         style={{
           color: "#EFEFEF",
-          width: "800px",
+          width: "890px",
           borderWidth: "1px",
           borderColor: "grey",
         }}
@@ -95,41 +126,40 @@ const NoteDetails = ({ note, isClicked }) => {
 
       <textarea
         className=" ms-3 border-0"
-        rows="5"
+        rows={30}
+        cols={85}
         placeholder="Write your note here..."
         style={{ outline: "none", resize: "none" }}
-        value={note.description}
         onFocus={(e) => (e.target.placeholder = "")}
         onBlur={(e) => (e.target.placeholder = "Write your note here...")}
+        value={editedDescription}
+        onChange={(e) => setEditedDescription(e.target.value)}
       ></textarea>
 
-      <button
-        className="btn text-white d-flex align-items-center justify-content-between"
+      <CustomButton
+        type="delete"
+        icon={<i class="bi bi-trash-fill" style={{ fontSize: "24px" }}></i>}
         style={{
-          backgroundColor: "#71CF48",
-          width: "150px",
-          height: "32px",
-          borderRadius: "5px",
+          position: "absolute",
+          bottom: "10px",
+          left: "10px",
+        }}
+      >
+        Delete Changes
+      </CustomButton>
+
+      <CustomButton
+        type="save"
+        onClick={handleSaveChanges}
+        icon={<i class="bi bi-check2" style={{ fontSize: "24px" }}></i>}
+        style={{
           position: "absolute",
           bottom: "10px",
           right: "10px",
         }}
       >
-        <span className="flex-grow-1 text-center">Save Changes</span>
-
-        <div className="d-flex align-items-center">
-          <span
-            style={{
-              height: "30px",
-              width: "2px",
-              backgroundColor: "#68C142",
-              marginRight: "10px",
-              marginLeft: "10px",
-            }}
-          ></span>
-          <i class="bi bi-check2" style={{ fontSize: "24px" }}></i>
-        </div>
-      </button>
+        Save Changes
+      </CustomButton>
     </div>
   );
 };
