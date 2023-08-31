@@ -21,9 +21,7 @@ const Main = () => {
       {selectedCategory ? (
         <div
           className={shouldShowNoteDetails ? "" : "col"}
-          style={
-            shouldShowNoteDetails ? { width: "370px", marginRight: "29px" } : {}
-          }
+          style={shouldShowNoteDetails ? { width: "370px" } : {}}
         >
           <NoteComponent
             categoryName={selectedCategory}
