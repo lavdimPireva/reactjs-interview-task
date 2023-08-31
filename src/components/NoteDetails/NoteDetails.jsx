@@ -1,11 +1,10 @@
 import React from "react";
 
-const RightSide = () => {
+const NoteDetails = ({ note, isClicked }) => {
   return (
     <div
-      className="mt-2  "
+      className="mt-2 me-2 p-2"
       style={{
-        maxWidth: "1300px",
         height: "899px",
         borderRadius: "10px",
         backgroundColor: "#FFFFFF",
@@ -81,13 +80,14 @@ const RightSide = () => {
         style={{ outline: "none" }}
         type="text"
         placeholder="Add a title"
+        value={note.title}
       />
 
       <hr
         className="my-3 ms-2"
         style={{
           color: "#EFEFEF",
-          width: "1250px",
+          width: "800px",
           borderWidth: "1px",
           borderColor: "grey",
         }}
@@ -98,6 +98,7 @@ const RightSide = () => {
         rows="5"
         placeholder="Write your note here..."
         style={{ outline: "none", resize: "none" }}
+        value={note.description}
         onFocus={(e) => (e.target.placeholder = "")}
         onBlur={(e) => (e.target.placeholder = "Write your note here...")}
       ></textarea>
@@ -133,4 +134,4 @@ const RightSide = () => {
   );
 };
 
-export default RightSide;
+export default NoteDetails;

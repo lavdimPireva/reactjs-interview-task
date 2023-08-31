@@ -4,11 +4,9 @@ import Navbar from "./components/Navbar/Navbar";
 
 function App() {
   return (
-    <div className="App">
+    <div className="App container-fluid">
       <Navbar />
-      <div style={{}}>
-        <Main />
-      </div>
+      <Main />
     </div>
   );
 }

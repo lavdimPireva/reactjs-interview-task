@@ -4,7 +4,7 @@ const Navbar = () => {
   return (
     <nav
       className="text-white d-flex align-items-center justify-content-between"
-      style={{ backgroundColor: "#1F2A44", height: "50px" }}
+      style={{ backgroundColor: "#1F2A44", height: "50px", maxWidth: "1920px" }}
     >
       <div className="container d-flex justify-content-start">
         <span

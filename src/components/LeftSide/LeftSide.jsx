@@ -1,14 +1,30 @@
 import React from "react";
 import CategoryItem from "../Category/CategoryItem";
+import { useCategoryContext } from "../../context/CategoryContext";
+import { useState } from "react";
 
-const LeftSide = () => {
+const LeftSide = ({ setIsClicked }) => {
   const categories = Array(20)
     .fill()
     .map((_, idx) => `Category (${idx})`);
 
+  const [expandedCategory, setExpandedCategory] = useState(null);
+  const { setSelectedCategory } = useCategoryContext();
+
+  const handleCategoryClick = (categoryName) => {
+    if (categoryName === expandedCategory) {
+      setExpandedCategory(null);
+      setSelectedCategory(null);
+      setIsClicked(false);
+    } else {
+      setExpandedCategory(categoryName);
+      setSelectedCategory(categoryName);
+    }
+  };
+
   return (
     <div
-      className="m-2 p-2"
+      className="m-2 p-1"
       style={{
         width: "370px",
         maxHeight: "899px",
@@ -46,7 +62,12 @@ const LeftSide = () => {
       </button>
 
       {categories.map((category) => (
-        <CategoryItem key={category} name={category} />
+        <CategoryItem
+          key={category}
+          name={category}
+          isExpanded={category === expandedCategory}
+          toggleExpand={() => handleCategoryClick(category)}
+        />
       ))}
     </div>
   );
