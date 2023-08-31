@@ -160,7 +160,7 @@ const NoteDetails = ({ note }) => {
           left: "10px",
         }}
       >
-        Delete Changes
+        Delete Note
       </CustomButton>
 
       <CustomButton
