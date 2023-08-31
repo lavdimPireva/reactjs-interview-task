@@ -3,6 +3,7 @@ import CustomButton from "./CustomButton";
 
 const NoteComponent = ({ categoryName, setSelectedNote, setIsClicked }) => {
   const [searchInputValue, setSearchInputValue] = useState("");
+  const [selectedNoteIndex, setSelectedNoteIndex] = useState(null);
   const [filteredNotes, setFilteredNotes] = useState("");
   const [notes, setNotes] = useState([]);
 
@@ -38,18 +39,21 @@ const NoteComponent = ({ categoryName, setSelectedNote, setIsClicked }) => {
     };
   }, [categoryName]);
 
-  const handleSelectedNote = (note) => {
+  const handleSelectedNote = (note, index) => {
     setSelectedNote(note);
+    setSelectedNoteIndex(index);
     setIsClicked(true);
   };
+  // #EFF4FF
 
   return (
     <div
-      className="mt-1 me-2 p-2"
+      className="m-2 me-2 p-2"
       style={{
         height: "899px",
         borderRadius: "10px",
         backgroundColor: "#FFFFFF",
+        overflow: "auto",
         boxShadow: "0px 1px 4px 0px #00000029",
         flexShrink: 0,
         position: "relative",
@@ -141,8 +145,12 @@ const NoteComponent = ({ categoryName, setSelectedNote, setIsClicked }) => {
             <div
               key={index}
               className="mt-4"
-              style={{ cursor: "pointer" }}
-              onClick={() => handleSelectedNote(note)}
+              style={{
+                cursor: "pointer",
+                backgroundColor:
+                  index === selectedNoteIndex ? "#EFF4FF" : "transparent",
+              }}
+              onClick={() => handleSelectedNote(note, index)}
             >
               <span>{note.title}</span>
               <p>{note.description.substring(0, 40) + "..."}</p>
@@ -161,18 +169,21 @@ const NoteComponent = ({ categoryName, setSelectedNote, setIsClicked }) => {
             <div
               key={index}
               className="mt-4"
-              style={{ cursor: "pointer" }}
-              onClick={() => handleSelectedNote(note)}
+              style={{
+                cursor: "pointer",
+                backgroundColor:
+                  index === selectedNoteIndex ? "#EFF4FF" : "transparent",
+              }}
+              onClick={() => handleSelectedNote(note, index)}
             >
               <span>{note.title}</span>
               <p>{note.description.substring(0, 40) + "..."}</p>
               <hr
-                className="my-3 "
+                className=" "
                 style={{
-                  color: "#EFEFEF",
+                  color: "grey",
                   width: "100%",
                   borderWidth: "1px",
-                  borderColor: "grey",
                 }}
               />
             </div>
