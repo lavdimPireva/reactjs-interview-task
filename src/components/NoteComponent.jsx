@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import CustomButton from "./CustomButton";
+import axios from "axios";
 
 const NoteComponent = ({ categoryName, setSelectedNote, setIsClicked }) => {
   const [searchInputValue, setSearchInputValue] = useState("");
@@ -7,6 +8,7 @@ const NoteComponent = ({ categoryName, setSelectedNote, setIsClicked }) => {
   const [filteredNotes, setFilteredNotes] = useState("");
   const [notes, setNotes] = useState([]);
 
+  // search functionality
   useEffect(() => {
     if (searchInputValue) {
       const filtered = notes.filter((note) => {
@@ -24,6 +26,24 @@ const NoteComponent = ({ categoryName, setSelectedNote, setIsClicked }) => {
       setFilteredNotes(notes);
     }
   }, [searchInputValue, notes]);
+
+  useEffect(() => {
+    if (categoryName === "Category (3)") {
+      axios
+        .get("https://jsonplaceholder.typicode.com/posts")
+        .then((response) => {
+          const transformedData = response.data.map((post) => ({
+            title: post.title,
+            description: post.body,
+          }));
+
+          setNotes(transformedData);
+        })
+        .catch((error) => {
+          console.error("Error fetching data", error);
+        });
+    }
+  }, [categoryName]);
 
   useEffect(() => {
     const handleStorageChange = () => {
@@ -44,7 +64,6 @@ const NoteComponent = ({ categoryName, setSelectedNote, setIsClicked }) => {
     setSelectedNoteIndex(index);
     setIsClicked(true);
   };
-  // #EFF4FF
 
   return (
     <div
@@ -153,7 +172,7 @@ const NoteComponent = ({ categoryName, setSelectedNote, setIsClicked }) => {
               onClick={() => handleSelectedNote(note, index)}
             >
               <span>{note.title}</span>
-              <p>{note.description.substring(0, 40) + "..."}</p>
+              <p>{note.description?.substring(0, 40) + "..."}</p>
               <hr
                 className="my-3 "
                 style={{

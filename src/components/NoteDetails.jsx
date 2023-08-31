@@ -5,7 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 // react-tostify
 import "react-toastify/dist/ReactToastify.css";
 
-const NoteDetails = ({ note, isClicked }) => {
+const NoteDetails = ({ note }) => {
   const [editedTitle, setEditedTitle] = useState(note.title);
   const [editedDescription, setEditedDescription] = useState(note.description);
 

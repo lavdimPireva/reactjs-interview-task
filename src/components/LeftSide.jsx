@@ -9,8 +9,7 @@ const LeftSide = ({ setIsClicked }) => {
     .map((_, idx) => `Category (${idx})`);
 
   const [expandedCategory, setExpandedCategory] = useState(null);
-
-  const { setSelectedCategory, selectedCategory } = useCategoryContext();
+  const { setSelectedCategory } = useCategoryContext();
 
   const handleCategoryClick = (categoryName) => {
     if (categoryName === expandedCategory) {
