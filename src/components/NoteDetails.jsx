@@ -28,17 +28,11 @@ const NoteDetails = ({ note }) => {
         (storedNote) => storedNote.title === note.title
       );
 
-      const hasTitleChanged = noteToUpdate.title !== editedTitle;
-      const hasDescriptionChanged =
-        noteToUpdate.description !== editedDescription;
-
       noteToUpdate.title = editedTitle;
       noteToUpdate.description = editedDescription;
 
-      if (hasTitleChanged || hasDescriptionChanged) {
-        const notify = () => toast("Note is updated");
-        notify();
-      }
+      const notify = () => toast("Note is updated");
+      notify();
 
       localStorage.setItem("notes", JSON.stringify(storedNotes));
 

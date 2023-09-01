@@ -29,7 +29,7 @@ const RightSide = () => {
       return;
     }
 
-    const notify = () => toast("New notes has been created on Category 2!");
+    const notify = () => toast("New notes has been created on Category 2");
     const targetCategory = "Category (2)";
     const newNote = { title, description: noteDescription };
 

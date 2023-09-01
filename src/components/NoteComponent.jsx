@@ -8,7 +8,6 @@ const NoteComponent = ({ categoryName, setSelectedNote, setIsClicked }) => {
   const [filteredNotes, setFilteredNotes] = useState("");
   const [notes, setNotes] = useState([]);
 
-  // search functionality
   useEffect(() => {
     if (searchInputValue) {
       const filtered = notes.filter((note) => {
